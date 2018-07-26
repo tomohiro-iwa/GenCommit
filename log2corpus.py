@@ -7,7 +7,11 @@ import unicodedata
 ### 大文字小文字統一　ステミング
 patarn = re.compile(r"([a-zA-Z0-9]*)")
 katakana = re.compile(r"[ア-ン]")
+rep_list = [
+re.compile(r"\n"),r"<BR>"
+]
 def corpus_filter(corpus_str):
+	#for i in 
 	return patarn.sub(r" \1 ",corpus_str)
 			
 def line_generator(gitlog):
@@ -16,7 +20,7 @@ def line_generator(gitlog):
 	is_first = True
 	for line in gitlog:
 		if line[0:7] == "!!!!!!!":
-			result.append( line[7:-1] )
+			result.append( corpus_filter(line[7:-1]) )
 			if is_first:
 				is_first = False
 			else:
@@ -26,15 +30,6 @@ def line_generator(gitlog):
 				corpus_str = ""
 		else:
 			corpus_str += line
-
-def have_trush(string):
-	name = unicodedata.name(string) 
-	if "CJK UNIFIED" in name \
-	or "HIRAGANA" in name \
-	or "KATAKANA" in name:
-		return True
-	else:
-		return False
 
 def make_corpus(repo_name,log_dir,result_dir):
 	print(log_dir+repo_name+"mygitlogdata.txt")

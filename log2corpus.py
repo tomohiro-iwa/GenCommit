@@ -4,15 +4,20 @@ import unicodedata
 
 ## 改行　+++ ---数値タグ化
 ## filter
-### 大文字小文字統一　ステミング
-patarn = re.compile(r"([a-zA-Z0-9]*)")
+## 大文字小文字統一　ステミング
+
+#patarn = re.compile(r"([a-zA-Z0-9]*)")
+reg_split = re.compile(r"((?<!<)[a-zA-Z0-9]*(?![A-Z]*>))")
 katakana = re.compile(r"[ア-ン]")
 rep_list = [
-re.compile(r"\n"),r"<BR>"
+["\n","<BR>"],
+["+++","<PPP>"],
+["---","<PPP>"]
 ]
 def corpus_filter(corpus_str):
-	#for i in 
-	return patarn.sub(r" \1 ",corpus_str)
+	for rep in rep_list:
+		corpus_str = corpus_str.replace(rep[0],rep[1])
+	return reg_split.sub(r" \1 ",corpus_str)
 			
 def line_generator(gitlog):
 	result = []

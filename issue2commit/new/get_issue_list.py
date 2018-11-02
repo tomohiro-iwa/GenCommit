@@ -11,9 +11,7 @@ def make_url(repo,page):
 	return left + repo + right + str(page)
 
 if __name__ == "__main__":
-	result = {}
-	result["repo_name"] = args[1]
-	result["issues"] = []
+	result = []
 
 	for i in range(60):
 		url = make_url(args[1],i+1)
@@ -21,10 +19,6 @@ if __name__ == "__main__":
 		data = json.loads(res.read().decode())
 		if len(data) < 1:
 			break
-		for j in data:
-			one = {}
-			one["title"] = j["title"]
-			one["url"] = j["html_url"]
-			result["issues"].append(one)
+		result.extend(data)
 	print( json.dumps(result) )
 

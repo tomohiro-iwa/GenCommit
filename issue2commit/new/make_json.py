@@ -5,6 +5,20 @@ import sys
 import re
 import json
 
+def url2ID(url,key="/pull/"):
+	id_match = re.search(key+"[0-9]+",url)
+	if id_match:
+		tag = id_match.group()
+		return tag.replace(key,"")
+	else:
+		return ""
+
+def url2pullID(url):
+	return url2ID(url,"/pull/")
+
+def url2issueID(url):
+	return url2ID(url,"/issues/")
+
 def drip(data):
 	issues = {}
 	pulls = {}
@@ -75,10 +89,15 @@ def main():
 		data_ptr = data["pull"][pull]
 		tag_match = re.search("#[0-9]+",data_ptr["title"])
 		if tag_match:
-			id_str = tag_match.group().replace("#","")
-			issue_url = data["repo_url"]+"/issues/"+id_str
+			issue_id = tag_match.group().replace("#","")
+			issue_url = data["repo_url"]+"/issues/"+issue_id
+			pull_id = url2pullID(pull)
 			try:
-				data["issues"][issue_url]["pulls"].append({"id":id_str})
+				pull_list = []
+				for i in data["issues"][issue_url]["pulls"]:
+					pull_list.append(i["id"])
+				if not  pull_id in pull_list:
+					data["issues"][issue_url]["pulls"].append({"id":pull_id})
 			except:
 				data["error"].append({"url":issue_url})
 	

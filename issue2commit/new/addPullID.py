@@ -42,7 +42,7 @@ def main():
 	data = json.loads(open(sys.argv[1]).read())
 
 	for issue in data["issues"]:
-		id_list = list(getIDs(issue["url"]))
+		id_list = list(getIDs(issue))
 		issue["pulls"] = []
 		for i in id_list:
 			issue["pulls"].append({"id":i})

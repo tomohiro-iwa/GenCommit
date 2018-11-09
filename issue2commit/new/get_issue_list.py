@@ -2,6 +2,7 @@
 import urllib.request as url_req
 import sys
 import json
+import base64
 
 args = sys.argv
 
@@ -13,10 +14,12 @@ def make_url(repo,page):
 if __name__ == "__main__":
 	result = []
 
-	for i in range(60):
+	for i in range(1):
 		url = make_url(args[1],i+1)
-		res = url_req.urlopen(url)
-		data = json.loads(res.read().decode())
+		headers = {"Authorization":"Basic dG9tb2hpcm8taXdhOnRvbW8yNDM2OTk="}
+		req = url_req.Request(url,headers=headers)
+		res = url_req.urlopen(req)
+		data = json.loads(res.read().decode("utf-8"))
 		if len(data) < 1:
 			break
 		result.extend(data)

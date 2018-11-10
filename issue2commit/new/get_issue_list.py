@@ -14,7 +14,7 @@ def make_url(repo,page):
 if __name__ == "__main__":
 	result = []
 
-	for i in range(1):
+	for i in range(100):
 		url = make_url(args[1],i+1)
 		headers = {"Authorization":"Basic dG9tb2hpcm8taXdhOnRvbW8yNDM2OTk="}
 		req = url_req.Request(url,headers=headers)

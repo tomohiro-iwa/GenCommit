@@ -1,4 +1,4 @@
-
+#! /usr/bin/python3
 import urllib.request as url_req
 from bs4 import BeautifulSoup
 import sys

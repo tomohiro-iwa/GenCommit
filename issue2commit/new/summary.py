@@ -44,6 +44,7 @@ def issue2pull(url):
 	marg_url = marg_url.replace("issues","pull")
 	return marg_url
 
+num = re.compile(r"[0-9]+")
 def getIDs(url):
 	#url <--- issue url
 	soup = url2soup(url)
@@ -57,11 +58,11 @@ def getIDs(url):
 		href = i.get("href")
 		match_obj = re.search(marg_url+"[0-9]+",href)
 		if match_obj:
-			tag = re.search(r"[0-9]+",match_obj.group() ).group()
+			tag = re.search(num,match_obj.group() ).group()
 			result.add(tag)
 
 	#filter
-	self_id = re.search(r"[0-9]+",url).group()
+	self_id = re.search(num,url).group()
 	if self_id in result:
 		result.remove(self_id)
 	

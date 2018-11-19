@@ -53,10 +53,11 @@ def getIDs(url):
 	result = set()
 
 	marg_url = issue2pull(url)
+	marg_re = re.compile(marg_url+"[0-9]+")
 
 	for i in links:
 		href = i.get("href")
-		match_obj = re.search(marg_url+"[0-9]+",href)
+		match_obj = re.search(marg_re,href)
 		if match_obj:
 			tag = re.search(num,match_obj.group() ).group()
 			result.add(tag)
@@ -68,6 +69,7 @@ def getIDs(url):
 	
 	return list(result)
 
+sharp_num = re.compile(r"#[0-9]+")
 def main():
 	api_json = json.load(open(sys.argv[1]))
 	data = {}

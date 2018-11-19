@@ -2,6 +2,7 @@
 import urllib.request as url_req
 from bs4 import BeautifulSoup
 import sys
+import time
 import json
 
 def url2soup(url):
@@ -10,10 +11,7 @@ def url2soup(url):
 	return soup
 
 def get_hash(pull_url):
-	try:
-		soup = url2soup(pull_url)
-	except:
-		sys.stderr.write(pull_url)
+	soup = url2soup(pull_url)
 	clips = soup.select("clipboard-copy")
 	result = []
 	for clip in clips:
@@ -35,6 +33,7 @@ def main():
 	for pull in pull_set:
 		pull_url = github_url+data["repo_name"]+"/pull/"+pull+"/commits"
 		result[pull_url] = get_hash(pull_url)
+		time.sleep(3)
 	
 	print(json.dumps(result))
 

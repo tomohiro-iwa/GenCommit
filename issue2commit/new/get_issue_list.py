@@ -3,6 +3,7 @@ import urllib.request as url_req
 import sys
 import json
 import base64
+import time
 
 args = sys.argv
 
@@ -21,6 +22,7 @@ if __name__ == "__main__":
 		req = url_req.Request(url,headers=headers)
 		res = url_req.urlopen(req)
 		data = json.loads(res.read().decode("utf-8"))
+		time.sleep(1)
 		if len(data) < 1:
 			break
 		result.extend(data)
